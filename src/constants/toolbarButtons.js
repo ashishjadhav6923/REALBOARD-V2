@@ -33,11 +33,11 @@ const useIconActions = () => {
       canvas.off("mouse:up");
     }
   };
-  const resetAllButtonClicked=()=>{
+  const resetAllButtonClicked = () => {
     setisHandClicked(false);
     setisPencilClicked(false);
     setisEraserClicked(false);
-  }
+  };
   // const saveState = () => {
   //   if (fabricCanvasRef.current) {
   //     const json = fabricCanvasRef.current.toJSON();
@@ -53,7 +53,7 @@ const useIconActions = () => {
     setisEraserClicked,
     isEraserClicked,
     setisHandClicked,
-    isHandClicked
+    isHandClicked,
   } = useCanvas();
   const drawingColor = useSelector((state) => state.canvasColor.drawingColor);
 
@@ -77,6 +77,7 @@ const useIconActions = () => {
       onClick: () => {
         resetAllButtonClicked();
         resetEraserMode();
+        fabricCanvasRef.current.freeDrawingBrush = new fabric.PencilBrush(fabricCanvasRef.current);
         if (!isPencilClicked) {
           setisPencilClicked(true);
           fabricCanvasRef.current.isDrawingMode = true;

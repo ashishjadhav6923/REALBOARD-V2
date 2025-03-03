@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { setToolbarHeight } from "../features/toolbarSlice";
-import useIconActions from "../constants/toolbarButtons";
+import useIconActions from "../constants/toolbarButtons.js";
 import { CiPickerEmpty } from "react-icons/ci";
 import { changedrawingColor } from "../features/canvasColor";
 import { useCanvas } from "../context/CanvasContext";
@@ -14,9 +14,6 @@ const Toolbar = ({ setisMenuActive, isMenuActive }) => {
   const dispatch = useDispatch();
   let { fabricCanvasRef, isRoomManagerOpen } = useCanvas();
   const drawingColor = useSelector((state) => state.canvasColor.drawingColor);
-  // const toggleRoomManager = () => {
-  //   setisRoomManagerOpen(!isRoomManagerOpen);
-  // };
   const handledrawingColorChange = (e) => {
     fabricCanvasRef.current.freeDrawingBrush.color = e.target.value;
     fabricCanvasRef.current.renderAll();
@@ -34,7 +31,7 @@ const Toolbar = ({ setisMenuActive, isMenuActive }) => {
         setDivHeight(divRef.current.getBoundingClientRect().height);
       }
     };
-    updateHeight(); // Initial height
+    updateHeight();
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
@@ -44,12 +41,10 @@ const Toolbar = ({ setisMenuActive, isMenuActive }) => {
     setisMenuActive(!isMenuActive);
   };
   const [isMenuClicked, setMenuClicked] = useState(false);
-  // const [IsLiveButtonClicked, setIsLiveButtonClicked] = useState(false);
-  const [IsDownloadButtonClicked, setIsDownloadButtonClicked] = useState(false);
   return (
     <div
       ref={divRef}
-      className={`w-lvw lg:p-4 p-2 flex justify-between items-center flex-col lg:flex-row gap-2 lg:gap-0 h-auto   ${
+      className={`w-lvw lg:p-4 p-2 flex justify-between items-center flex-col lg:flex-row gap-2 lg:gap-0 h-auto ${
         themeColor == "light"
           ? "bg-white border-b-1 border-slate-200"
           : "bg-[#121212] text-white border-b-1 border-slate-700"

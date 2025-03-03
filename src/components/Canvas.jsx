@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import * as fabric from "fabric";
 import { useCanvas } from "../context/CanvasContext";
 
 const Canvas = () => {
-  const dispatch = useDispatch();
-  let { fabricCanvasRef, setisPencilClicked } = useCanvas();
+  let { fabricCanvasRef } = useCanvas();
   const canvasRef = useRef(null);
   const canvasColor = useSelector((state) => state.canvasColor.color);
   const toolbarHeight = useSelector((state) => state.toolbar.height);
@@ -14,22 +13,20 @@ const Canvas = () => {
       height: window.innerHeight - toolbarHeight,
       width: window.innerWidth,
       isDrawingMode: true,
+      backgroundColor: canvasColor,
     });
-    fabricCanvasRef.current = fabricCanvas;
-    fabricCanvas.backgroundColor = canvasColor;
-    fabricCanvas.freeDrawingBrush = new fabric.PencilBrush(fabricCanvas);
-    setisPencilClicked(true);
     fabricCanvas.renderAll();
+    fabricCanvasRef.current = fabricCanvas;
     return () => {
       fabricCanvas.dispose();
       fabricCanvasRef.current = null;
     };
-  }, [toolbarHeight, dispatch]);
+  }, [toolbarHeight]);
 
   useEffect(() => {
     if (fabricCanvasRef.current) {
       fabricCanvasRef.current.backgroundColor = canvasColor;
-      fabricCanvasRef.current.renderAll(); // Re-render canvas to apply the change
+      fabricCanvasRef.current.renderAll();
     }
   }, [canvasColor]);
   return <canvas ref={canvasRef}></canvas>;
